@@ -99,7 +99,7 @@ int *B;
 ```
 A typical merge sort algorithm requires some extra storage, which is an array, whose size is the same as the original array - the array you want to sort. Watch this video to understand why such an extra array is needed:
 
-<video controls>
+<video width="1920" height="1080" controls>
   <source src="https://www.youtube.com/watch?v=KF2j-9iSf4Q&t=372s" type="video/mp4">
 </video>
 
