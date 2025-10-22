@@ -11,7 +11,7 @@
 /* External arrays from main */
 extern int *A;
 extern int *B;
-extern int cutoff_level;
+extern int cutoff;
 
 /* Merge two sorted halves */
 void merge(int leftstart, int leftend, int rightstart, int rightend) {
@@ -69,7 +69,7 @@ void * parallel_mergesort(void *arg) {
 
     int mid = (left + right) / 2;
 
-    if (level >= cutoff_level) {
+    if (level >= cutoff) {
         // Base case: sort sequentially
         my_mergesort(left, right);
     } else {
@@ -91,6 +91,6 @@ void * parallel_mergesort(void *arg) {
         merge(left, mid, mid + 1, right);
     }
 
-    free(a);
+    // free(a);
     return NULL;
 }

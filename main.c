@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <string.h>
 #include "mergesort.h"
 
-int *A, *B, cutoff_level;
+int *A, *B, cutoff;
 
 int main() {
     // Sample unsorted array
     int sample[] = {38, 27, 43, 3, 9, 82, 10, 17, 1, 14, 5, 60, 45, 8, 2, 19};
     int n = sizeof(sample) / sizeof(sample[0]);
-    cutoff_level = 2;
+    cutoff = 2;
     
     A = malloc(n * sizeof(int));
     B = malloc(n * sizeof(int));
