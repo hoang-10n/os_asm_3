@@ -13,27 +13,40 @@ extern int *A;
 extern int *B;
 extern int cutoff;
 
-/* Merge two sorted halves */
-void merge(int leftstart, int leftend, int rightstart, int rightend) {
-    int i = leftstart;
-    int j = rightstart;
-    int k = leftstart;
+/* Build thread argument */
+struct argument * buildArgs(int left, int right, int level) {
+    struct argument *arg = malloc(sizeof(struct argument));
+    arg->left = left;
+    arg->right = right;
+    arg->level = level;
+    return arg;
+}
 
-    while (i <= leftend && j <= rightend) {
-        if (A[i] <= A[j])
+/* Merge two sorted halves */
+void merge(int leftStart, int leftEnd, int rightStart, int rightEnd) {
+    int i = leftStart;
+    int j = rightStart;
+    int k = leftStart;
+
+    while (i <= leftEnd && j <= rightEnd) {
+        if (A[i] <= A[j]) {
             B[k++] = A[i++];
-        else
+        }
+        else {
             B[k++] = A[j++];
+        }
     }
 
-    while (i <= leftend)
+    while (i <= leftEnd) {
         B[k++] = A[i++];
+    }
 
-    while (j <= rightend)
+    while (j <= rightEnd) {
         B[k++] = A[j++];
+    }
 
     // Copy merged data back to A
-    memcpy(A + leftstart, B + leftstart, (rightend - leftstart + 1) * sizeof(int));
+    memcpy(A + leftStart, B + leftStart, (rightEnd - leftStart + 1) * sizeof(int));
 }
 
 /* Sequential merge sort */
@@ -44,15 +57,6 @@ void my_mergesort(int left, int right) {
     my_mergesort(left, mid);
     my_mergesort(mid + 1, right);
     merge(left, mid, mid + 1, right);
-}
-
-/* Build thread argument */
-struct argument * buildArgs(int left, int right, int level) {
-    struct argument *arg = malloc(sizeof(struct argument));
-    arg->left = left;
-    arg->right = right;
-    arg->level = level;
-    return arg;
 }
 
 /* Parallel merge sort */
