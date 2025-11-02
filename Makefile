@@ -1,15 +1,22 @@
 CC = gcc
-CFLAGS = -Wall -Wpointer-arith -Wstrict-prototypes -std=gnu89 -fPIC -MMD -MP -lpthread
+CFLAGS = -lpthread
 
-all: test-mergesort
+all: test-mergesort test-main
 
-#This builds an executable 
+# gcc -lpthread   -c -o test-mergesort.o test-mergesort.c
+# gcc -lpthread   -c -o mergesort.o mergesort.c
+# gcc -lpthread -o test-mergesort test-mergesort.o mergesort.o
+
 test-mergesort: test-mergesort.o mergesort.o
 	$(CC) $(CFLAGS) -o $@ $?
 
+test-main: main.o mergesort.o
+	$(CC) $(CFLAGS) -o main $?
+
 .PHONY: clean
 clean:
-	/bin/rm -f *.o *.d test-mergesort
+	/bin/rm -f *.o *.d
+	find . -maxdepth 1 -type f ! -name "*.*" ! -name "Makefile" -exec rm -f {} +
 
 multitest:
 	./test-mergesort 100000000 0 1234

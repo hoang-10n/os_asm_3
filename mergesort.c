@@ -13,6 +13,15 @@ extern int *A;
 extern int *B;
 extern int cutoff;
 
+/* Build thread argument */
+struct argument * buildArgs(int left, int right, int level) {
+    struct argument *arg = malloc(sizeof(struct argument));
+    arg->left = left;
+    arg->right = right;
+    arg->level = level;
+    return arg;
+}
+
 /* Merge two sorted halves */
 void merge(int leftStart, int leftEnd, int rightStart, int rightEnd) {
     int i = leftStart;
@@ -22,7 +31,8 @@ void merge(int leftStart, int leftEnd, int rightStart, int rightEnd) {
     while (i <= leftEnd && j <= rightEnd) {
         if (A[i] <= A[j]) {
             B[k++] = A[i++];
-        } else {
+        }
+        else {
             B[k++] = A[j++];
         }
     }
@@ -47,15 +57,6 @@ void my_mergesort(int left, int right) {
     my_mergesort(left, mid);
     my_mergesort(mid + 1, right);
     merge(left, mid, mid + 1, right);
-}
-
-/* Build thread argument */
-struct argument * buildArgs(int left, int right, int level) {
-    struct argument *arg = malloc(sizeof(struct argument));
-    arg->left = left;
-    arg->right = right;
-    arg->level = level;
-    return arg;
 }
 
 /* Parallel merge sort */
