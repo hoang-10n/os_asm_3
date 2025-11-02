@@ -14,26 +14,29 @@ extern int *B;
 extern int cutoff;
 
 /* Merge two sorted halves */
-void merge(int leftstart, int leftend, int rightstart, int rightend) {
-    int i = leftstart;
-    int j = rightstart;
-    int k = leftstart;
+void merge(int leftStart, int leftEnd, int rightStart, int rightEnd) {
+    int i = leftStart;
+    int j = rightStart;
+    int k = leftStart;
 
-    while (i <= leftend && j <= rightend) {
-        if (A[i] <= A[j])
+    while (i <= leftEnd && j <= rightEnd) {
+        if (A[i] <= A[j]) {
             B[k++] = A[i++];
-        else
+        } else {
             B[k++] = A[j++];
+        }
     }
 
-    while (i <= leftend)
+    while (i <= leftEnd) {
         B[k++] = A[i++];
+    }
 
-    while (j <= rightend)
+    while (j <= rightEnd) {
         B[k++] = A[j++];
+    }
 
     // Copy merged data back to A
-    memcpy(A + leftstart, B + leftstart, (rightend - leftstart + 1) * sizeof(int));
+    memcpy(A + leftStart, B + leftStart, (rightEnd - leftStart + 1) * sizeof(int));
 }
 
 /* Sequential merge sort */
@@ -70,7 +73,7 @@ void * parallel_mergesort(void *arg) {
     int mid = (left + right) / 2;
 
     if (level >= cutoff) {
-        // Base case: sort sequentially
+        // If number of threads exceed cutoff value, sort sequentially
         my_mergesort(left, right);
     } else {
         pthread_t t1, t2;
